@@ -6,11 +6,7 @@ class ShopItemCard extends StatelessWidget {
   final ShopItem item;
   final VoidCallback onTap;
 
-  const ShopItemCard({
-    super.key,
-    required this.item,
-    required this.onTap,
-  });
+  const ShopItemCard({super.key, required this.item, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +26,23 @@ class ShopItemCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    // GANTI URL INI jika menggunakan proxy atau lokal. 
+                    // GANTI URL INI jika menggunakan proxy atau lokal.
                     // Jika deployment, ganti localhost:8000 dengan URL deployment Anda.
-                    'http://localhost:8000/main/proxy-image/?url=${Uri.encodeComponent(item.fields.thumbnail)}', 
+                    'http://localhost:8000/main/proxy-image/?url=${Uri.encodeComponent(item.fields.thumbnail)}',
                     height: 180,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
                       height: 180,
-                      color: Theme.of(context).colorScheme.background, // Background pink muda
-                      child: const Center(child: Icon(Icons.shopping_bag_outlined, color: Colors.grey)),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.background, // Background pink muda
+                      child: const Center(
+                        child: Icon(
+                          Icons.shopping_bag_outlined,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -62,13 +65,18 @@ class ShopItemCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w900,
-                    color: Theme.of(context).colorScheme.primary, // Warna Pink Cerah
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary, // Warna Pink Cerah
                   ),
                 ),
                 const SizedBox(height: 6),
 
                 // Kategori
-                Text('Kategori: ${item.fields.category}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                Text(
+                  'Kategori: ${item.fields.category}',
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
                 const SizedBox(height: 6),
 
                 // Description Preview
@@ -90,7 +98,7 @@ class ShopItemCard extends StatelessWidget {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,
-                        fontSize: 12
+                        fontSize: 12,
                       ),
                     ),
                   ),

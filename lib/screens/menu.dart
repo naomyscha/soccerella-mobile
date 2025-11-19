@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:soccerella/screens/product_form.dart';
 import 'package:soccerella/widgets/left_drawer.dart';
+// Wajib: Import halaman daftar produk untuk navigasi
+import 'package:soccerella/screens/shop_item_list.dart'; 
 
 
 class MyHomePage extends StatelessWidget {
@@ -9,11 +11,17 @@ class MyHomePage extends StatelessWidget {
   final String nama = "Naomyscha Attalie Maza";
   final String npm = "2406348433";
   final String kelas = "B";
+  
+  // 🎨 Definisikan warna tema Soccerella di sini
+  static const Color soccerellaPrimary = Color(0xFFE91E63); // Pink/Magenta Cerah
+  static const Color soccerellaSecondary = Color(0xFFF06292); // Pink Lebih Muda
+  static const Color soccerellaSuccess = Color(0xFF8BC34A); // Hijau untuk My Items
 
   final List<ItemHomepage> items = const [
-    ItemHomepage("All Products", Icons.list, Colors.blue),
-    ItemHomepage("My Products", Icons.shopping_bag, Colors.green),
-    ItemHomepage("Create Product", Icons.add_circle, Colors.red),
+    // 🎨 Ubah warna tombol agar senada dengan tema Pink/Magenta
+    ItemHomepage("All Products", Icons.list, soccerellaSecondary), 
+    ItemHomepage("My Products", Icons.shopping_bag, soccerellaSuccess), // Warna hijau untuk membedakan filter
+    ItemHomepage("Create Product", Icons.add_circle, soccerellaPrimary), // Warna utama untuk aksi penting
   ];
 
   @override
@@ -27,7 +35,8 @@ class MyHomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.blue,
+        // 🎨 Terapkan warna utama Soccerella
+        backgroundColor: soccerellaPrimary, 
       ),
       drawer: const LeftDrawer(),
       body: Padding(
@@ -74,6 +83,7 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3.0,
+      // 🎨 Terapkan warna latar belakang putih bersih untuk InfoCard
       child: Container(
         width: MediaQuery.of(context).size.width / 3.8,
         padding: const EdgeInsets.all(12.0),
@@ -110,17 +120,36 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}")),
-            );
           // Navigasi ke halaman form tambah produk
           if (item.name == "Create Product") {
+            // ✅ Navigasi ke Form Tambah Produk
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ProductFormPage()),
             );
+          } else if (item.name == "All Products") {
+            // ✅ Navigasi ke Daftar Produk (Filter OFF: Melihat semua produk)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ShopItemListPage(initialFilterByUser: false),
+              ),
+            );
+          } else if (item.name == "My Products") {
+            // ✅ Navigasi ke Daftar Produk (Filter ON: Hanya melihat produk milik sendiri)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ShopItemListPage(initialFilterByUser: true),
+              ),
+            );
+          } else {
+             // Logic fallback jika ada tombol baru yang belum terdefinisi
+             ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(content: Text("Aksi untuk ${item.name} belum didefinisikan.")),
+                );
           }
         },
         child: Container(

@@ -16,7 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  
+
   late Color primaryColor;
 
   @override
@@ -47,7 +47,8 @@ class _RegisterPageState extends State<RegisterPage> {
             // Card theme (rounded, putih) diwarisi dari main.dart
             child: Padding(
               padding: const EdgeInsets.all(30.0),
-              child: Form( // Menggunakan Form untuk validasi
+              child: Form(
+                // Menggunakan Form untuk validasi
                 key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -86,7 +87,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     const SizedBox(height: 16.0), // Spasi disesuaikan
-
                     // Password Field
                     TextFormField(
                       controller: _passwordController,
@@ -107,7 +107,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     const SizedBox(height: 16.0), // Spasi disesuaikan
-
                     // Confirm Password Field
                     TextFormField(
                       controller: _confirmPasswordController,
@@ -143,30 +142,36 @@ class _RegisterPageState extends State<RegisterPage> {
 
                           // POST ke Django (URL localhost dipertahankan)
                           final response = await request.postJson(
-                              "http://localhost:8000/auth/register/",
-                              jsonEncode({
-                                "username": username,
-                                "password1": password1,
-                                "password2": password2,
-                              }));
-                          
+                            "http://localhost:8000/auth/register/",
+                            jsonEncode({
+                              "username": username,
+                              "password1": password1,
+                              "password2": password2,
+                            }),
+                          );
+
                           if (context.mounted) {
                             if (response['status'] == 'success') {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Akun ${response['username']} berhasil dibuat! Silakan Login.'),
+                                  content: Text(
+                                    'Akun ${response['username']} berhasil dibuat! Silakan Login.',
+                                  ),
                                 ),
                               );
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
+                                  builder: (context) => const LoginPage(),
+                                ),
                               );
                             } else {
                               // Menampilkan pesan error dari Django
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Registrasi Gagal: ${response['message']}'),
+                                  content: Text(
+                                    'Registrasi Gagal: ${response['message']}',
+                                  ),
                                 ),
                               );
                             }
@@ -178,7 +183,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         minimumSize: const Size(double.infinity, 50),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
-                      child: const Text('DAFTAR', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'DAFTAR',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),

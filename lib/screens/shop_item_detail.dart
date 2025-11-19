@@ -16,12 +16,12 @@ class ShopItemDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Produk'),
         // Warna AppBar disesuaikan dengan tema utama Soccerella
-        backgroundColor: theme.colorScheme.primary, 
+        backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -31,15 +31,21 @@ class ShopItemDetailPage extends StatelessWidget {
             // Gambar Produk (Thumbnail)
             if (item.fields.thumbnail.isNotEmpty)
               Image.network(
-                // Gunakan URL proxy atau URL langsung yang sudah disesuaikan
-                'http://localhost:8000/main/proxy-image/?url=${Uri.encodeComponent(item.fields.thumbnail)}',
+                // 🚀 KOREKSI UTAMA: Mengganti localhost:8000 menjadi localhost:8000 untuk Android Emulator
+                'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(item.fields.thumbnail)}',
                 width: double.infinity,
                 height: 300,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
                   height: 300,
                   color: theme.colorScheme.background,
-                  child: const Center(child: Icon(Icons.broken_image, size: 50, color: Colors.grey)),
+                  child: const Center(
+                    child: Icon(
+                      Icons.broken_image,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
 
@@ -57,7 +63,7 @@ class ShopItemDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  
+
                   // Harga
                   Text(
                     _formatPrice(item.fields.price),
@@ -71,11 +77,18 @@ class ShopItemDetailPage extends StatelessWidget {
                   // Kategori
                   Row(
                     children: [
-                      Icon(Icons.category, size: 18, color: theme.colorScheme.primary),
+                      Icon(
+                        Icons.category,
+                        size: 18,
+                        color: theme.colorScheme.primary,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'Kategori: ${item.fields.category}',
-                        style: const TextStyle(fontSize: 14, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -84,7 +97,10 @@ class ShopItemDetailPage extends StatelessWidget {
                   // Featured Badge
                   if (item.fields.isFeatured)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 6.0,
+                      ),
                       margin: const EdgeInsets.only(bottom: 12.0),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.secondary.withOpacity(0.15),
@@ -103,7 +119,10 @@ class ShopItemDetailPage extends StatelessWidget {
                   // Deskripsi Penuh
                   const Text(
                     'Deskripsi Produk:',
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
